@@ -29,6 +29,13 @@ class SaleOrder(models.Model):
         copy=False
     )
 
+    monto_ahorro = fields.Monetary(
+        string="Ahorro por convenio",
+        compute="_compute_monto_ahorro",
+        store=True,
+        currency_field="currency_id",
+    )
+
     @api.depends("partner_id", "date_order")
     def _compute_convenio_id(self):
         for order in self:
@@ -40,6 +47,26 @@ class SaleOrder(models.Model):
                 ("fecha_fin", "=", False),
                 ("fecha_fin", ">=", fecha),
             ], limit=1)
+
+    @api.depends(
+        "order_line.price_unit",
+        "order_line.product_uom_qty",
+        "order_line.discount",
+        "order_line.display_type",
+    )
+    def _compute_monto_ahorro(self):
+        for order in self:
+            lineas = order.order_line.filtered(
+                lambda line: not line.display_type
+            )
+
+            order.monto_ahorro = sum(
+                line.price_unit
+                * line.product_uom_qty
+                * line.discount
+                / 100
+                for line in lineas
+            )
 
     def action_aplicar_convenio(self):
         for order in self:

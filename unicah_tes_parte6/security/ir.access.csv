@@ -1,0 +1,3 @@
+id,name,model_id,group_id/id,operation,domain
+access_unicah_tes_user,unicah.tes user,unicah.tes,base.group_user,crud,
+access_unicah_tes_actividad_user,unicah.tes.actividad user,unicah.tes.actividad,base.group_user,crud,

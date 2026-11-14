@@ -1,0 +1,22 @@
+<odoo>
+    <record id="view_partner_form_unicah_tes" model="ir.ui.view">
+        <field name="name">res.partner.form.unicah.tes</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="TES">
+                    <field name="tes_ids" readonly="1">
+                        <list>
+                            <field name="name"/>
+                            <field name="fecha_inicio"/>
+                            <field name="horas_realizadas"/>
+                            <field name="horas_pendientes"/>
+                            <field name="estado"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
